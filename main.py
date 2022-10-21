@@ -58,4 +58,6 @@ def home() -> dict:
     Homepage
     """
     storage.child("requirements.txt").put("requirements.txt")
-    return {"Status": "The recommender microservice is running!"}
+    with open("/etc/secrets/serviceAccountKey.json", "r") as f:
+        text = f.read()
+    return {"Status": text}
