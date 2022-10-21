@@ -4,4 +4,3 @@ pyBKT==1.4
 Pyrebase4==4.5.0
 gunicorn==20.1.0
 uvicorn==0.18.3
-google-cloud-secret-manager==2.12.6

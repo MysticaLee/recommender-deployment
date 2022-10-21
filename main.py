@@ -2,6 +2,20 @@ from fastapi import FastAPI, status, HTTPException
 from pyBKT.models import Model, Roster
 import numpy as np
 import re, pickle, os, ast, json
+import pyrebase
+
+# Storage configurations
+config = {
+    "apiKey": "AIzaSyBkOgyEaJLDrryHW5AtVs45miWidFhz-2g",
+    "authDomain": "recommender-storage.firebaseapp.com",
+    "projectId": "recommender-storage",
+    "storageBucket": "recommender-storage.appspot.com",
+    "serviceAccount": "/etc/secrets/serviceAccountKey.json",
+    "databaseURL": "//recommender-storage.appspot.com",
+}
+
+firebase_storage = pyrebase.initialize_app(config)
+storage = firebase_storage.storage()
 
 
 def train_model() -> Model:
@@ -43,5 +57,5 @@ def home() -> dict:
     """
     Homepage
     """
-
+    storage.child("requirements.txt").put("requirements.txt")
     return {"Status": "The recommender microservice is running!"}
