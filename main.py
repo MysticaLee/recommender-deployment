@@ -205,3 +205,11 @@ def save_roster() -> None:
 
     global roster
     roster = Roster(students=[], skills=topics, model=trained_model)
+
+
+@app.on_event("shutdown")
+def shutdown_event():
+    """
+    Saves the roster file when shutting down
+    """
+    storage.child("roster.pkl").put("roster.pkl")
