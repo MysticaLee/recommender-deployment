@@ -24,15 +24,15 @@ def train_model() -> Model:
     Data is currently hardcoded, but should be loaded from our database or file in the future
     """
 
-    model = Model()
+    trained_model = Model()
     defaults = {
         "order_id": "Anon Student Id",
         "skill_name": "KC(Default)",
         "correct": "Correct First Attempt",
     }
-    model.fit(data_path="Data_Analysis_CSV.csv", defaults=defaults)
-    model.save("model-custom.pkl")
-    return model
+    trained_model.fit(data_path="Data_Analysis_CSV.csv", defaults=defaults)
+    trained_model.save("model-custom.pkl")
+    return trained_model
 
 
 def load_model() -> Model:
@@ -40,8 +40,8 @@ def load_model() -> Model:
     Load a trained model from a pickle file in local storage
     """
 
-    model = Model()
-    return model.load("model-custom.pkl")
+    trained_model = Model()
+    return trained_model.load("model-custom.pkl")
 
 
 def load_roster_model() -> Model:
@@ -54,8 +54,8 @@ def load_roster_model() -> Model:
 
 
 # Initialize the model (Either load from file or train from some data)
-# model = train_model()
-model = load_model()
+trained_model = train_model()
+# trained_model = load_model()
 roster = load_roster_model()
 
 app = FastAPI()
@@ -204,4 +204,4 @@ def save_roster() -> None:
         topics = [topic.replace('topicSlug: "', "").rstrip('",') for topic in topics]
 
     global roster
-    roster = Roster(students=[], skills=topics, model=model)
+    roster = Roster(students=[], skills=topics, model=trained_model)
