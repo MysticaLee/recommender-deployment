@@ -54,8 +54,8 @@ def load_roster_model() -> Model:
 
 
 # Initialize the model (Either load from file or train from some data)
-trained_model = train_model()
-# trained_model = load_model()
+# trained_model = train_model()
+trained_model = load_model()
 roster = load_roster_model()
 
 app = FastAPI()
