@@ -5,6 +5,7 @@ WORKDIR $APP_HOME
 
 COPY requirements.txt ./
 COPY gunicorn_config.py ./
+COPY seed_data.ts ./
 
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
