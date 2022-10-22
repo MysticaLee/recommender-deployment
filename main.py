@@ -53,12 +53,19 @@ def load_roster_model() -> Model:
         return pickle.load(handle)
 
 
-# Initialize the model (Either load from file or train from some data)
-# trained_model = train_model()
-trained_model = load_model()
-roster = load_roster_model()
-
 app = FastAPI()
+
+
+@app.on_event("startup")
+async def startup_event():
+    """
+    Get latest model during start up
+    """
+    global trained_model, roster
+    # Initialize the model (Either load from file or train from some data)
+    # trained_model = train_model()
+    trained_model = load_model()
+    roster = load_roster_model()
 
 
 @app.get("/", status_code=status.HTTP_200_OK)
@@ -208,7 +215,7 @@ def save_roster() -> None:
 
 
 @app.on_event("shutdown")
-def shutdown_event():
+async def shutdown_event():
     """
     Saves the roster file when shutting down
     """
