@@ -1,7 +1,7 @@
 """gunicorn server configuration."""
 import os
 
-threads = 4
+threads = 8
 workers = 2
 timeout = 0
 host = "0.0.0.0"

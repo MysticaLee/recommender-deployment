@@ -49,7 +49,7 @@ def get_roster_model() -> Model:
     """
     Get the latest roster file in storage and load them
     """
-    # storage.download("roster.pkl", "roster.pkl")
+    storage.download("roster.pkl", "roster.pkl")
     with open("roster.pkl", "rb") as handle:
         return pickle.load(handle)
 
