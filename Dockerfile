@@ -9,7 +9,7 @@ COPY seed_data.ts ./
 
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
-COPY model-custom.pkl ./
+COPY models/training-model-latest.pkl ./
 COPY main.py ./
 
 CMD gunicorn main:app -c gunicorn_config.py
