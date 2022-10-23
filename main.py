@@ -190,7 +190,6 @@ def update_state(student_id: str, topic: str, correct: str) -> dict:
 def save_roster() -> None:
     """
     Saves the Roster model to disk. Uses Python pickles.
-    Might need authenication cause will reload the container everytime
     """
 
     with open("roster.pkl", "wb") as handle:
