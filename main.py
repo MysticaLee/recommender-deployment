@@ -10,7 +10,7 @@ config = {
     "authDomain": "recommender-storage.firebaseapp.com",
     "projectId": "recommender-storage",
     "storageBucket": "recommender-storage.appspot.com",
-    "serviceAccount": "serviceAccountKey.json",
+    "serviceAccount": "/etc/secrets/serviceAccountKey.json",
     "databaseURL": "//recommender-storage.appspot.com",
 }
 
