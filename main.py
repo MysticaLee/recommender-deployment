@@ -220,4 +220,6 @@ async def shutdown_event():
     """
     Saves the roster file when shutting down
     """
+    with open("roster.pkl", "wb") as handle:
+        pickle.dump(app.roster, handle, protocol=pickle.HIGHEST_PROTOCOL)
     storage.child("roster.pkl").put("roster.pkl")
