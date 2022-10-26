@@ -18,7 +18,7 @@ firebase_storage = pyrebase.initialize_app(config)
 storage = firebase_storage.storage()
 
 
-def get_training_model() -> Model:
+def get_model() -> Model:
     """
     Try and load a training model
     If doesn't exist, then train a new model
@@ -27,8 +27,9 @@ def get_training_model() -> Model:
         """
         Load a trained model from a pickle file in local storage
         """
-        with open("models/training-model-latest.pkl", "rb") as handle:
-            return pickle.load(handle)
+        model = Model()
+        model.load("model.pkl")
+        return model
     except:
         """
         Train a model from some data
@@ -41,21 +42,24 @@ def get_training_model() -> Model:
             "correct": "Correct First Attempt",
         }
         trained_model.fit(data_path="Data_Analysis_CSV.csv", defaults=defaults)
-        trained_model.save("models/training-model-latest.pkl")
+        trained_model.save("model.pkl")
         return trained_model
 
 
 def get_roster_model() -> Model:
     """
-    Get the latest roster file in storage and load them
+    Load the latest roster file in storage
+    Update the roster with the latest training model
     """
     storage.download("roster.pkl", "roster.pkl")
     with open("roster.pkl", "rb") as handle:
-        return pickle.load(handle)
+        roster = pickle.load(handle)
+    roster.set_model(app.model)
+    return roster
 
 
 app = FastAPI()
-app.trained_model = Model()
+app.model = Model()
 app.roster = Model()
 
 
@@ -65,7 +69,7 @@ async def startup_event():
     Get latest model during start up
     """
     # Initialise the model (Either load from file or train from some data)
-    app.trained_model = get_training_model()
+    app.model = get_model()
     app.roster = get_roster_model()
 
 
@@ -206,13 +210,16 @@ def reset_roster() -> Model:
 
     with open(os.path.dirname(__file__) + "/seed_data.ts", "r") as f:
         """
-        Get topicId from the data.js
+        Get topicSlug from the seed_data.ts
         """
         text = f.read()
         topics = re.findall(r"topicSlug: .*", text)
-        topics = [topic.replace('topicSlug: "', "").rstrip('",') for topic in topics]
+        topics = list(set(topics))  # Remove duplicates
+        topics = [
+            topic.replace('topicSlug: "', "").rstrip('",') for topic in topics
+        ]  # Cleaning up
 
-    app.roster = Roster(students=[], skills=topics, model=app.trained_model)
+    app.roster = Roster(students=[], skills=topics, model=app.model)
 
 
 @app.on_event("shutdown")
