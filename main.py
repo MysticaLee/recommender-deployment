@@ -114,9 +114,9 @@ def add_student(student_id: str, topic: str) -> dict:
         except:
             continue  # Unable to get mastery, students are not added
         else:
-            break  # Able to get mastery, students have been added, break out of loop
-
-    return {"Created": True}
+            return {
+                "Created": True
+            }  # Able to get mastery, students have been added, return a JSON response
 
 
 @app.delete("/remove-student/{student_id}/{topic}", status_code=status.HTTP_200_OK)
@@ -149,11 +149,11 @@ def remove_student(student_id: str, topic: str) -> dict:
             for student in student_id:
                 app.roster.get_mastery_prob(topic, student)
         except:
-            break  # Unable to get mastery, students have been deleted, break out of loop
+            return {
+                "Deleted": True
+            }  # Unable to get mastery, students have been deleted, return a JSON response
         else:
             continue  # Able to get mastery, students have not been deleted
-
-    return {"Deleted": True}
 
 
 @app.get("/get-mastery/{student_id}/{topic}", status_code=status.HTTP_200_OK)
@@ -217,10 +217,8 @@ def update_state(student_id: str, topic: str, correct: str) -> dict:
         new_mastery = app.roster.get_mastery_prob(topic, student_id)
         if (
             new_mastery != old_mastery
-        ):  # Ensures that data is updated before returning a response
-            break
-
-    return {"Updated": True}
+        ):  # Ensures that data is updated before returning a JSON response
+            return {"Updated": True}
 
 
 @app.post("/save-roster", status_code=status.HTTP_200_OK)
