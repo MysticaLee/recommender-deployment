@@ -51,7 +51,7 @@ def get_roster_model() -> Model:
     Load the latest roster file in storage
     Update the roster with the latest training model
     """
-    storage.download("roster.pkl", "roster.pkl")
+    # storage.download("roster.pkl", "roster.pkl")
     with open("roster.pkl", "rb") as handle:
         roster = pickle.load(handle)
     roster.set_model(app.model)
@@ -87,8 +87,8 @@ def add_student(student_id: str, topic: str) -> dict:
     """
     Adds students with given names for a topic with optional initial states.
     Notes:
-        Update multiple students at once
-        Can only update 1 topic at a time
+        Add multiple students at once
+        Can only add 1 topic at a time
     """
 
     student_id = student_id.split(",")
@@ -104,7 +104,18 @@ def add_student(student_id: str, topic: str) -> dict:
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail="Data already exists",
         )
-    app.roster.add_students(topic, student_id)
+
+    while True:
+        app.roster.add_students(topic, student_id)  # Add the students
+        try:
+            # Ensures that data is added before returning a response
+            for student in student_id:
+                app.roster.get_mastery_prob(topic, student)
+        except:
+            continue  # Unable to get mastery, students are not added
+        else:
+            break  # Able to get mastery, students have been added, break out of loop
+
     return {"Created": True}
 
 
@@ -130,7 +141,18 @@ def remove_student(student_id: str, topic: str) -> dict:
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail=f"Student ID {student_id} does NOT exists",
         )
-    app.roster.remove_students(topic, student_id)
+
+    while True:
+        app.roster.remove_students(topic, student_id)  # Remove the students
+        try:
+            # Ensures that data is removed before returning a response
+            for student in student_id:
+                app.roster.get_mastery_prob(topic, student)
+        except:
+            break  # Unable to get mastery, students have been deleted, break out of loop
+        else:
+            continue  # Able to get mastery, students have not been deleted
+
     return {"Deleted": True}
 
 
@@ -139,8 +161,8 @@ def get_mastery(student_id: str, topic: str) -> dict:
     """
     Fetches mastery probability for a particular student for a topic.
     Notes:
-        1 student at a time
-        1 topic at a time
+        Fetches 1 student at a time
+        Fetches 1 topic at a time
     """
 
     if topic not in app.roster.skill_rosters:  # Ensure valid topic name
@@ -186,7 +208,18 @@ def update_state(student_id: str, topic: str, correct: str) -> dict:
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail="Missing / Incorrect argument. Please ensure that the last agrument is a binary string.",
         )
-    app.roster.update_state(topic, student_id, np.array([int(i) for i in correct]))
+
+    while True:
+        old_mastery = app.roster.get_mastery_prob(topic, student_id)
+        app.roster.update_state(
+            topic, student_id, np.array([int(i) for i in correct])
+        )  # Update the student
+        new_mastery = app.roster.get_mastery_prob(topic, student_id)
+        if (
+            new_mastery != old_mastery
+        ):  # Ensures that data is updated before returning a response
+            break
+
     return {"Updated": True}
 
 
