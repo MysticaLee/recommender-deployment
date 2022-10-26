@@ -51,7 +51,7 @@ def get_roster_model() -> Model:
     Load the latest roster file in storage
     Update the roster with the latest training model
     """
-    # storage.download("roster.pkl", "roster.pkl")
+    storage.download("roster.pkl", "roster.pkl")
     with open("roster.pkl", "rb") as handle:
         roster = pickle.load(handle)
     roster.set_model(app.model)
