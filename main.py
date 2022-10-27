@@ -1,8 +1,14 @@
 from fastapi import FastAPI, status, HTTPException
 from pyBKT.models import Model, Roster
 import numpy as np
-import re, pickle, os
+import re, pickle, os, ast, json
 import pyrebase
+
+key = os.environ["serviceAccountKey"]
+
+with open("serviceAccountKey.json", "w") as f:
+    client_resposne = ast.literal_eval(key)
+    json.dump(key, f)
 
 # Storage configurations
 config = {
@@ -10,7 +16,7 @@ config = {
     "authDomain": "recommender-storage.firebaseapp.com",
     "projectId": "recommender-storage",
     "storageBucket": "recommender-storage.appspot.com",
-    "serviceAccount": "/etc/secrets/serviceAccountKey.json",
+    "serviceAccount": "serviceAccountKey.json",
     "databaseURL": "//recommender-storage.appspot.com",
 }
 
