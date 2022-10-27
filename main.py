@@ -7,7 +7,7 @@ import pyrebase
 key = os.environ["serviceAccountKey"]
 
 with open("serviceAccountKey.json", "w") as f:
-    client_resposne = ast.literal_eval(key)
+    key = ast.literal_eval(key)
     json.dump(key, f)
 
 # Storage configurations
