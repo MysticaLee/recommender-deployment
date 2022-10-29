@@ -60,7 +60,7 @@ def get_roster_model() -> Model:
     storage.download("roster.pkl", "roster.pkl")
     with open("roster.pkl", "rb") as handle:
         roster = pickle.load(handle)
-    roster.set_model(app.model)
+    # roster.set_model(app.model)
     return roster
 
 
