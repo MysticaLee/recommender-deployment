@@ -1,143 +1,137 @@
-import { TopicLevel, QuestionDifficulty } from "@prisma/client";
-import {
-  Topic,
-  CoursePage,
-  Question,
-  Answer,
-  QuestionMedia,
-} from "@prisma/client";
+import { Level, CourseType, QuestionDifficulty } from "@prisma/client";
+import { Topic, Question, Answer, QuestionMedia } from "@prisma/client";
 
 export const Topics: Topic[] = [
   {
     topicSlug: "power",
     topicName: "Power = V x I",
-    topicLevel: TopicLevel.Foundational,
+    topicLevel: Level.Foundational,
   },
   {
     topicSlug: "ohms-law",
     topicName: "Ohm's Law",
-    topicLevel: TopicLevel.Foundational,
+    topicLevel: Level.Foundational,
   },
   {
     topicSlug: "kvl",
     topicName: "Kirchhoff's Voltage Law",
-    topicLevel: TopicLevel.Foundational,
+    topicLevel: Level.Foundational,
   },
   {
     topicSlug: "kcl",
     topicName: "Kirchhoff's Circuit Law",
-    topicLevel: TopicLevel.Foundational,
+    topicLevel: Level.Foundational,
   },
   {
     topicSlug: "equivalent-resistance-in-series-or-parallel",
     topicName: "Equivalent Resistance when Connected in Series or Parallel",
-    topicLevel: TopicLevel.Foundational,
+    topicLevel: Level.Foundational,
   },
   {
     topicSlug: "voltage-division-principle",
     topicName: "Voltage Division Principle",
-    topicLevel: TopicLevel.Foundational,
+    topicLevel: Level.Foundational,
   },
   {
     topicSlug: "current-division-principle",
     topicName: "Current Division Principle",
-    topicLevel: TopicLevel.Foundational,
+    topicLevel: Level.Foundational,
   },
   {
     topicSlug: "thevenin-equivalent-circuit",
     topicName: "Thevenin Equivalent Circuit",
-    topicLevel: TopicLevel.Foundational,
+    topicLevel: Level.Foundational,
   },
   {
     topicSlug: "node-voltage-analysis-technique",
     topicName: "Node Voltage Analysis Technique",
-    topicLevel: TopicLevel.Intermediate,
+    topicLevel: Level.Foundational,
   },
   {
     topicSlug: "rc-steady-state-analysis",
     topicName: "Steady State Analysis of RC Circuits",
-    topicLevel: TopicLevel.Intermediate,
+    topicLevel: Level.Intermediate,
   },
   {
     topicSlug: "equivalent-capacitance",
     topicName: "Equivalent Capacitance When Connected in Series or Parallel",
-    topicLevel: TopicLevel.Intermediate,
+    topicLevel: Level.Intermediate,
   },
   {
     topicSlug: "energy-stored-in-capacitors",
     topicName: "Energy Stored in Capacitors",
-    topicLevel: TopicLevel.Intermediate,
+    topicLevel: Level.Intermediate,
   },
   {
     topicSlug: "rc-transient-analysis",
     topicName: "Transient Analysis of Series RC Circuits",
-    topicLevel: TopicLevel.Intermediate,
+    topicLevel: Level.Intermediate,
   },
   {
     topicSlug: "rl-steady-state-analysis",
     topicName: "Steady State Analysis of RL Circuits",
-    topicLevel: TopicLevel.Intermediate,
+    topicLevel: Level.Intermediate,
   },
   {
     topicSlug: "equivalent-inductance",
-    topicName: "Equivalent inductance When Connected in Series or Parallel",
-    topicLevel: TopicLevel.Intermediate,
+    topicName: "Equivalent Inductance When Connected in Series or Parallel",
+    topicLevel: Level.Intermediate,
   },
   {
     topicSlug: "energy-stored-in-inductors",
     topicName: "Energy Stored in Inductors",
-    topicLevel: TopicLevel.Intermediate,
+    topicLevel: Level.Intermediate,
   },
   {
     topicSlug: "rl-transient-analysis",
     topicName: "Transient Analysis of Series RL Circuits",
-    topicLevel: TopicLevel.Intermediate,
+    topicLevel: Level.Intermediate,
   },
   {
     topicSlug: "rlc-circuit-analysis",
     topicName: "Analysis of RLC Circuits",
-    topicLevel: TopicLevel.Intermediate,
+    topicLevel: Level.Intermediate,
   },
   {
     topicSlug: "inverting-non-inverting-amplifiers-gains",
     topicName: "Gains of Inverting and Non-Inverting Amplifiers",
-    topicLevel: TopicLevel.Advanced,
+    topicLevel: Level.Advanced,
   },
   {
     topicSlug: "opamp-circuit-analysis",
     topicName: "Analysis of Circuits Containing Op-Amps",
-    topicLevel: TopicLevel.Advanced,
+    topicLevel: Level.Advanced,
   },
   {
     topicSlug: "opamp-golden-rules",
     topicName: "Op-Amp Golden Rules",
-    topicLevel: TopicLevel.Advanced,
+    topicLevel: Level.Advanced,
   },
   {
     topicSlug: "first-order-low-pass-filters",
     topicName: "First Order Low Pass Filters",
-    topicLevel: TopicLevel.Advanced,
+    topicLevel: Level.Advanced,
   },
   {
     topicSlug: "first-order-high-pass-filters",
     topicName: "First Order High Pass Filters",
-    topicLevel: TopicLevel.Advanced,
+    topicLevel: Level.Advanced,
   },
   {
     topicSlug: "pmdc-motors-circuit-model",
     topicName: "Electrical Circuit Model of PMDC Motors",
-    topicLevel: TopicLevel.Advanced,
+    topicLevel: Level.Advanced,
   },
   {
     topicSlug: "dc-motors-power-calculation",
     topicName:
       "Calculation of Mechanical Power & Electrical Power of DC Motors",
-    topicLevel: TopicLevel.Advanced,
+    topicLevel: Level.Advanced,
   },
   {
     topicSlug: "torque-equation",
     topicName: "Torque Equation",
-    topicLevel: TopicLevel.Advanced,
+    topicLevel: Level.Advanced,
   },
 ];
 
@@ -146,6 +140,12 @@ type CourseWithTopics = {
   moduleTitle: string;
   courseSlug: string;
   courseName: string;
+  courseDescription: string;
+  courseImage: string;
+  courseLevel: Level;
+  type: CourseType;
+  slide?: string;
+  video?: string;
   week?: number;
   studio?: number;
   topics: Topic["topicSlug"][];
@@ -157,6 +157,12 @@ export const Courses: CourseWithTopics = [
     moduleTitle: "Engineering Principles & Practices I",
     courseSlug: "welcome-quiz",
     courseName: "Welcome Quiz",
+    courseDescription:
+      "Welcome to CG1111A! Take this quiz to help us get to know you better and recommend suitable questions.",
+    courseImage:
+      "https://images.unsplash.com/photo-1547521420-4328f6f9b272?crop=entropy&cs=tinysrgb&fm=jpg&ixid=MnwzNzQ4MTR8MHwxfGFsbHx8fHx8fHx8fDE2NjY2MjYyNjE&ixlib=rb-4.0.3&q=80w=400",
+    courseLevel: Level.Foundational,
+    type: CourseType.Quiz,
     topics: [
       "power",
       "ohms-law",
@@ -175,6 +181,15 @@ export const Courses: CourseWithTopics = [
     studio: 1,
     courseSlug: "fundamentals-of-electricity",
     courseName: "Fundamentals of Electricity",
+    courseDescription:
+      "Learn the fundamentals of electricity such as electric charge and current, power, voltage and resistance.",
+    courseImage:
+      "https://images.unsplash.com/photo-1510761047613-a5c1d008d780?ixid=MnwzNzQ4MTR8MHwxfGFsbHx8fHx8fHx8fDE2NjY2MjY0Mjk&ixlib=rb-4.0.3&q=80w=400",
+    courseLevel: Level.Foundational,
+    type: CourseType.Content,
+    slide:
+      "https://res.cloudinary.com/dy2tqc45y/image/upload/v1666007594/LeetNode/slides/w1s1-fundamentals-of-electricity.pdf",
+    video: "agscc9MAIok",
     topics: ["power", "ohms-law"],
   },
   {
@@ -184,6 +199,15 @@ export const Courses: CourseWithTopics = [
     studio: 2,
     courseSlug: "electrical-circuit-principles",
     courseName: "Electrical Circuit Principles",
+    courseDescription:
+      "Learn the principles of electrical circuits such as Kirchhoff's Laws, equivalent resistances and voltage and current division principles.",
+    courseImage:
+      "https://images.unsplash.com/photo-1619345371662-fccc15cc4814?ixid=MnwzNzQ4MTR8MHwxfGFsbHx8fHx8fHx8fDE2NjY2MjY3MTY&ixlib=rb-4.0.3&q=80w=400",
+    courseLevel: Level.Foundational,
+    type: CourseType.Content,
+    slide:
+      "https://res.cloudinary.com/dy2tqc45y/image/upload/v1666007593/LeetNode/slides/w1s2-electrical-circuit-principles.pdf",
+    video: "knkSt14499I",
     topics: [
       "kcl",
       "kvl",
@@ -199,6 +223,15 @@ export const Courses: CourseWithTopics = [
     studio: 1,
     courseSlug: "thevenin-equivalent-circuit",
     courseName: "Thevenin Equivalent Circuit",
+    courseDescription:
+      "Learn how to find the Thevenin equivalent circuit to simplify the analysis of electrical circuits.",
+    courseImage:
+      "https://images.unsplash.com/photo-1632571401005-458e9d244591?ixid=MnwzNzQ4MTR8MHwxfGFsbHx8fHx8fHx8fDE2NjY2MjY4Nzk&ixlib=rb-4.0.3&q=80w=400",
+    courseLevel: Level.Foundational,
+    type: CourseType.Content,
+    slide:
+      "https://res.cloudinary.com/dy2tqc45y/image/upload/v1666007593/LeetNode/slides/w2s1-thevenin-equivalent-circuit.pdf",
+    video: "hmIDKROT9Eg",
     topics: ["thevenin-equivalent-circuit"],
   },
   {
@@ -208,6 +241,15 @@ export const Courses: CourseWithTopics = [
     studio: 2,
     courseSlug: "circuit-analysis-techniques",
     courseName: "Circuit Analysis Techniques",
+    courseDescription:
+      "Learn the techniques of circuit analysis such as superposition, node and mesh analysis.",
+    courseImage:
+      "https://images.unsplash.com/photo-1586256053828-a36b572ab01d?ixid=MnwzNzQ4MTR8MHwxfGFsbHx8fHx8fHx8fDE2NjY2MjcwNjc&ixlib=rb-4.0.3&q=80w=400",
+    courseLevel: Level.Foundational,
+    type: CourseType.Content,
+    slide:
+      "https://res.cloudinary.com/dy2tqc45y/image/upload/v1666007593/LeetNode/slides/w2s2-circuit-analysis-techniques.pdf",
+    video: "bHx3FSQM9fg",
     topics: ["node-voltage-analysis-technique"],
   },
   {
@@ -217,6 +259,15 @@ export const Courses: CourseWithTopics = [
     studio: 1,
     courseSlug: "principles-of-capacitors",
     courseName: "Principles of Capacitors",
+    courseDescription:
+      "Learn the principles of capacitors such as capacitance, charging and discharging of capacitors.",
+    courseImage:
+      "https://images.unsplash.com/photo-1598048145816-4d54a3af68fe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNzQ4MTR8MHwxfGFsbHx8fHx8fHx8fDE2NjY2NzM5MDM&ixlib=rb-4.0.3&q=80&w=400",
+    courseLevel: Level.Intermediate,
+    type: CourseType.Content,
+    slide:
+      "https://res.cloudinary.com/dy2tqc45y/image/upload/v1666007593/LeetNode/slides/w3s1-principles-of-capacitors.pdf",
+    video: "BsklaRrgQWM",
     topics: [
       "rc-steady-state-analysis",
       "equivalent-capacitance",
@@ -230,6 +281,15 @@ export const Courses: CourseWithTopics = [
     studio: 2,
     courseSlug: "dc-transient-behaviour-of-capacitors",
     courseName: "DC Transient Behaviour of Capacitors",
+    courseDescription:
+      "Learn the DC transient behaviour of capacitors such as charging and discharging of capacitors.",
+    courseImage:
+      "https://images.unsplash.com/photo-1625480860249-be231806e6ed?ixid=MnwzNzQ4MTR8MHwxfGFsbHx8fHx8fHx8fDE2NjY2MjcyMzE&ixlib=rb-4.0.3&q=80w=400",
+    courseLevel: Level.Intermediate,
+    type: CourseType.Content,
+    slide:
+      "https://res.cloudinary.com/dy2tqc45y/image/upload/v1666007593/LeetNode/slides/w3s2-dc-transient-behaviour-of-capacitors.pdf",
+    video: "AR5bnNADoF8",
     topics: ["rc-transient-analysis"],
   },
   {
@@ -239,6 +299,15 @@ export const Courses: CourseWithTopics = [
     studio: 1,
     courseSlug: "principles-of-inductors",
     courseName: "Principles of Inductors",
+    courseDescription:
+      "Learn the principles of inductors such as inductance, energy stored in inductors and steady and transient analysis of RL circuits.",
+    courseImage:
+      "https://images.unsplash.com/photo-1583199873815-b58ce30591ea?ixid=MnwzNzQ4MTR8MHwxfGFsbHx8fHx8fHx8fDE2NjY2MjcxNTA&ixlib=rb-4.0.3&q=80w=400",
+    courseLevel: Level.Intermediate,
+    type: CourseType.Content,
+    slide:
+      "https://res.cloudinary.com/dy2tqc45y/image/upload/v1666007593/LeetNode/slides/w4s1-principles-of-inductors.pdf",
+    video: "dd3gaBiJvXc",
     topics: [
       "rl-steady-state-analysis",
       "equivalent-inductance",
@@ -253,6 +322,15 @@ export const Courses: CourseWithTopics = [
     studio: 1,
     courseSlug: "basics-of-operational-amplifiers",
     courseName: "Basics of Operational Amplifiers",
+    courseDescription:
+      "Learn the basics of operational amplifiers (opamps) such as ideal and non-ideal opamps, opamp circuit analysis and the opamp golden rules.",
+    courseImage:
+      "https://images.unsplash.com/photo-1611759386165-ed9beec7b14f?ixid=MnwzNzQ4MTR8MHwxfGFsbHx8fHx8fHx8fDE2NjY2MjczMzE&ixlib=rb-4.0.3&q=80w=400",
+    courseLevel: Level.Advanced,
+    type: CourseType.Content,
+    slide:
+      "https://res.cloudinary.com/dy2tqc45y/image/upload/v1666007593/LeetNode/slides/w7s1-basics-of-operational-amplifiers.pdf",
+    video: "YZXoTvKaNfU",
     topics: [
       "inverting-non-inverting-amplifiers-gains",
       "opamp-circuit-analysis",
@@ -266,117 +344,23 @@ export const Courses: CourseWithTopics = [
     studio: 1,
     courseSlug: "opamp-comparators-and-filters",
     courseName: "Op-Amp Comparators & Filters",
+    courseDescription:
+      "Learn the applications of operational amplifiers (opamps) such as comparators and filters.",
+    courseImage:
+      "https://images.unsplash.com/photo-1510746001195-0db09655b6db?ixid=MnwzNzQ4MTR8MHwxfGFsbHx8fHx8fHx8fDE2NjY2Mjc0NDU&ixlib=rb-4.0.3&q=80w=400",
+    courseLevel: Level.Advanced,
+    type: CourseType.Content,
+    slide:
+      "https://res.cloudinary.com/dy2tqc45y/image/upload/v1666007594/LeetNode/slides/w8s1-opamp-comparators-and-filters.pdf",
+    video: "tkH9dECGeT0",
     topics: ["first-order-low-pass-filters", "first-order-high-pass-filters"],
-  },
-];
-
-export const CoursePages: CoursePage[] = [
-  {
-    pageId: 1,
-    courseSlug: "fundamentals-of-electricity",
-    markdown: `# Fundamentals of Electricity
-
-## Video
-<iframe width="560" height="315" src="https://www.youtube.com/embed/agscc9MAIok" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-## Slides
-https://res.cloudinary.com/dy2tqc45y/image/upload/v1666007594/LeetNode/slides/w1s1-fundamentals-of-electricity.pdf`,
-  },
-  {
-    pageId: 1,
-    courseSlug: "electrical-circuit-principles",
-    markdown: `# Electrical Circuit Principles
-
-## Video
-<iframe width="560" height="315" src="https://www.youtube.com/embed/knkSt14499I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-## Slides
-https://res.cloudinary.com/dy2tqc45y/image/upload/v1666007593/LeetNode/slides/w1s2-electrical-circuit-principles.pdf`,
-  },
-  {
-    pageId: 1,
-    courseSlug: "thevenin-equivalent-circuit",
-    markdown: `# Thevenin Equivalent Circuit
-
-## Video
-<iframe width="560" height="315" src="https://www.youtube.com/embed/hmIDKROT9Eg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-## Slides
-https://res.cloudinary.com/dy2tqc45y/image/upload/v1666007593/LeetNode/slides/w2s1-thevenin-equivalent-circuit.pdf`,
-  },
-  {
-    pageId: 1,
-    courseSlug: "circuit-analysis-techniques",
-    markdown: `# Circuit Analysis Techniques
-
-## Video
-<iframe width="560" height="315" src="https://www.youtube.com/embed/bHx3FSQM9fg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-## Slides
-https://res.cloudinary.com/dy2tqc45y/image/upload/v1666007593/LeetNode/slides/w2s2-circuit-analysis-techniques.pdf`,
-  },
-  {
-    pageId: 1,
-    courseSlug: "principles-of-capacitors",
-    markdown: `# Principles of Capacitors
-
-## Video
-<iframe width="560" height="315" src="https://www.youtube.com/embed/BsklaRrgQWM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-## Slides
-https://res.cloudinary.com/dy2tqc45y/image/upload/v1666007593/LeetNode/slides/w3s1-principles-of-capacitors.pdf`,
-  },
-  {
-    pageId: 1,
-    courseSlug: "dc-transient-behaviour-of-capacitors",
-    markdown: `# DC Transient Behaviour of Capacitors
-
-## Video
-<iframe width="560" height="315" src="https://www.youtube.com/embed/AR5bnNADoF8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-## Slides
-https://res.cloudinary.com/dy2tqc45y/image/upload/v1666007593/LeetNode/slides/w3s2-dc-transient-behaviour-of-capacitors.pdf`,
-  },
-  {
-    pageId: 1,
-    courseSlug: "principles-of-inductors",
-    markdown: `# Principles of Inductors
-
-## Video
-<iframe width="560" height="315" src="https://www.youtube.com/embed/dd3gaBiJvXc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-## Slides
-https://res.cloudinary.com/dy2tqc45y/image/upload/v1666007593/LeetNode/slides/w4s1-principles-of-inductors.pdf`,
-  },
-  {
-    pageId: 1,
-    courseSlug: "basics-of-operational-amplifiers",
-    markdown: `# Basics of Operational Amplifiers
-
-## Video
-<iframe width="560" height="315" src="https://www.youtube.com/embed/YZXoTvKaNfU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-## Slides
-"https://res.cloudinary.com/dy2tqc45y/image/upload/v1666007593/LeetNode/slides/w7s1-basics-of-operational-amplifiers.pdf"
-`,
-  },
-  {
-    pageId: 1,
-    courseSlug: "opamp-comparators-and-filters",
-    markdown: `# Op-amp Comparators and Filters
-
-## Video
-<iframe width="560" height="315" src="https://www.youtube.com/embed/tkH9dECGeT0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-## Slides
-https://res.cloudinary.com/dy2tqc45y/image/upload/v1666007594/LeetNode/slides/w8s1-opamp-comparators-and-filters.pdf
-`,
   },
 ];
 
 export const Questions: Question[] = [
   {
     questionId: 1,
+    variationId: 1,
     topicSlug: "ohms-law",
     questionContent:
       "For the circuit shown in the figure above, what is the value of current I1?",
@@ -384,6 +368,7 @@ export const Questions: Question[] = [
   },
   {
     questionId: 2,
+    variationId: 1,
     topicSlug: "voltage-division-principle",
     questionContent:
       "For the circuit shown in the figure above, what is the voltage V1?",
@@ -391,6 +376,7 @@ export const Questions: Question[] = [
   },
   {
     questionId: 3,
+    variationId: 1,
     topicSlug: "equivalent-resistance-in-series-or-parallel",
     questionContent:
       "A current of 3 A flows through a resistor network as shown in the figure above. The voltage difference \\(V_{XY}\\) (given by \\(V_X\\) - \\(V_Y\\)) is",
@@ -398,6 +384,7 @@ export const Questions: Question[] = [
   },
   {
     questionId: 4,
+    variationId: 1,
     topicSlug: "thevenin-equivalent-circuit",
     questionContent:
       "What is the value of R that will result in a current of I = 0.25 A passing through R? (Hint: Use Thevenin equivalent circuit)",
@@ -405,6 +392,7 @@ export const Questions: Question[] = [
   },
   {
     questionId: 5,
+    variationId: 1,
     topicSlug: "voltage-division-principle",
     questionContent:
       "What is the maximum power that can be utilized by the variable load R?",
@@ -412,6 +400,7 @@ export const Questions: Question[] = [
   },
   {
     questionId: 6,
+    variationId: 1,
     topicSlug: "thevenin-equivalent-circuit",
     questionContent:
       "For the circuit shown in the figure above, what is the Thevenin equivalent circuit as seen by the load RL?",
@@ -419,6 +408,7 @@ export const Questions: Question[] = [
   },
   {
     questionId: 7,
+    variationId: 1,
     topicSlug: "node-voltage-analysis-technique",
     questionContent:
       "For the circuit shown in the figure above, what is the node voltage VA?",
@@ -426,6 +416,7 @@ export const Questions: Question[] = [
   },
   {
     questionId: 8,
+    variationId: 1,
     topicSlug: "voltage-division-principle",
     questionContent:
       "For the circuit shown in the figure above, is Battery B being recharged or discharged? What is the power lost in Battery B's internal resistance?",
@@ -433,6 +424,7 @@ export const Questions: Question[] = [
   },
   {
     questionId: 9,
+    variationId: 1,
     topicSlug: "rl-transient-analysis",
     questionContent:
       "In the circuit shown in the figure above, the two switches were opened for a very long time before time t = 0. At time t = 0, both the switches are closed simultaneously. How long does it take for the voltage VL(t) to fall to 7 V after the switches are closed?",
@@ -440,6 +432,7 @@ export const Questions: Question[] = [
   },
   {
     questionId: 10,
+    variationId: 1,
     topicSlug: "rc-transient-analysis",
     questionContent:
       "In the circuit shown in the figure above, the capacitor was fully discharged initially. At time t = 0, the switch is closed. If it takes 6 s for the practical capacitor's voltage VPC(t) to rise to 6 V, what is the value of capacitance C?",
@@ -447,6 +440,7 @@ export const Questions: Question[] = [
   },
   {
     questionId: 11,
+    variationId: 1,
     topicSlug: "rlc-circuit-analysis",
     questionContent:
       "In the circuit shown in the figure above, the capacitor's voltage vC(t) is",
@@ -454,6 +448,7 @@ export const Questions: Question[] = [
   },
   {
     questionId: 12,
+    variationId: 1,
     topicSlug: "rlc-circuit-analysis",
     questionContent:
       "In the circuit shown in the figure above, a 100-ohm resistor is connected in series with a practical inductor. The practical inductor has a resistance of 10-ohm, and an unknown inductance L. Suppose the phase angle of the voltage vR(t) is found to be –35° with respect to the source voltage vS(t), what is the voltage across the practical inductor vPL(t)?",
