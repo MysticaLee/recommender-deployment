@@ -5,11 +5,16 @@ Main project: [LeetNode](https://github.com/zhermin/LeetNode)
 ## Recommender Microservice
 
 This Recommender Microservice consists of:
-Machine Learning: [pyBKT](https://github.com/CAHLR/pyBKT)
-REST API: FastAPI
-Deployment: Heroku
-Storage: Firebase Storage
-Cache: Redis
+
+- Machine Learning: [pyBKT](https://github.com/CAHLR/pyBKT)
+
+- REST API: FastAPI
+
+- Deployment: Heroku
+
+- Storage: Firebase Storage
+
+- Cache: Redis
 
 ### Setup
 
