@@ -3,8 +3,10 @@ from pyBKT.models import Model, Roster
 import numpy as np
 import re, pickle, os, ast, json
 import pyrebase
+import redis
 
 key = os.environ["serviceAccountKey"]
+r = redis.from_url(os.environ.get("REDIS_URL"))
 
 with open("serviceAccountKey.json", "w") as f:
     key = ast.literal_eval(key)
@@ -60,6 +62,7 @@ def get_roster_model() -> Model:
     storage.download("roster.pkl", "roster.pkl")
     with open("roster.pkl", "rb") as handle:
         roster = pickle.load(handle)
+        r.set("roster", handle)
     # roster.set_model(app.model)
     return roster
 
@@ -97,6 +100,7 @@ def add_student(student_id: str, topic: str) -> dict:
         Can only add 1 topic at a time
     """
 
+    app.roster = pickle.loads(r.get("roster"))
     student_id = student_id.split(",")
     if topic not in app.roster.skill_rosters:  # Ensure valid topic name
         raise HTTPException(
@@ -120,6 +124,7 @@ def add_student(student_id: str, topic: str) -> dict:
         except:
             continue  # Unable to get mastery, students are not added
         else:
+            r.set("roster", pickle.dumps(app.roster))
             return {
                 "Created": True
             }  # Able to get mastery, students have been added, return a JSON response
@@ -134,6 +139,7 @@ def remove_student(student_id: str, topic: str) -> dict:
         Can only remove 1 topic at a time
     """
 
+    app.roster = pickle.loads(r.get("roster"))
     student_id = student_id.split(",")
     if topic not in app.roster.skill_rosters:  # Ensure valid topic name
         raise HTTPException(
@@ -155,6 +161,7 @@ def remove_student(student_id: str, topic: str) -> dict:
             for student in student_id:
                 app.roster.get_mastery_prob(topic, student)
         except:
+            r.set("roster", pickle.dumps(app.roster))
             return {
                 "Deleted": True
             }  # Unable to get mastery, students have been deleted, return a JSON response
@@ -171,6 +178,7 @@ def get_mastery(student_id: str, topic: str) -> dict:
         Fetches 1 topic at a time
     """
 
+    app.roster = pickle.loads(r.get("roster"))
     if topic not in app.roster.skill_rosters:  # Ensure valid topic name
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
@@ -183,6 +191,7 @@ def get_mastery(student_id: str, topic: str) -> dict:
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail=f"Student ID {student_id} does NOT exists",
         )
+    r.set("roster", pickle.dumps(app.roster))
     return {f"Mastery": app.roster.get_mastery_prob(topic, student_id)}
 
 
@@ -197,6 +206,7 @@ def update_state(student_id: str, topic: str, correct: str) -> dict:
         Update 1 topic at a time
     """
 
+    app.roster = pickle.loads(r.get("roster"))
     if topic not in app.roster.skill_rosters:  # Ensure valid topic name
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
@@ -224,6 +234,7 @@ def update_state(student_id: str, topic: str, correct: str) -> dict:
         if (
             new_mastery != old_mastery
         ):  # Ensures that data is updated before returning a JSON response
+            r.set("roster", pickle.dumps(app.roster))
             return {"Updated": True}
 
 
@@ -233,6 +244,7 @@ def save_roster() -> None:
     Saves the Roster model to disk. Uses Python pickles.
     """
 
+    app.roster = pickle.loads(r.get("roster"))
     with open("roster.pkl", "wb") as handle:
         pickle.dump(app.roster, handle, protocol=pickle.HIGHEST_PROTOCOL)
     storage.child("roster.pkl").put("roster.pkl")
@@ -257,6 +269,7 @@ def reset_roster() -> Model:
         ]  # Cleaning up
 
     app.roster = Roster(students=[], skills=topics, model=app.model)
+    r.set("roster", pickle.dumps(app.roster))
 
 
 @app.on_event("shutdown")
@@ -264,6 +277,8 @@ async def shutdown_event():
     """
     Saves the roster file when shutting down
     """
+
+    app.roster = pickle.loads(r.get("roster"))
     with open("roster.pkl", "wb") as handle:
         pickle.dump(app.roster, handle, protocol=pickle.HIGHEST_PROTOCOL)
     storage.child("roster.pkl").put("roster.pkl")
