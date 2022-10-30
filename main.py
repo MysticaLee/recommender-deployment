@@ -62,7 +62,6 @@ def get_roster_model() -> Model:
     storage.download("roster.pkl", "roster.pkl")
     with open("roster.pkl", "rb") as handle:
         roster = pickle.load(handle)
-        r.set("roster", handle)
     # roster.set_model(app.model)
     return roster
 
@@ -80,6 +79,7 @@ async def startup_event():
     # Initialise the model (Either load from file or train from some data)
     app.model = get_model()
     app.roster = get_roster_model()
+    r.set("roster", pickle.dumps(app.roster))
 
 
 @app.get("/", status_code=status.HTTP_200_OK)
