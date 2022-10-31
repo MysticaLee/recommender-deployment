@@ -192,7 +192,10 @@ def get_mastery(student_id: str, topic: str) -> dict:
             detail=f"Student ID {student_id} does NOT exists",
         )
     r.set("roster", pickle.dumps(app.roster))
-    return {f"Mastery": app.roster.get_mastery_prob(topic, student_id)}
+    mastery = app.roster.get_mastery_prob(topic, student_id)
+    if mastery == -1:
+        return {f"Mastery": 0}  # Set default to 0
+    return {f"Mastery": mastery}
 
 
 @app.patch(
