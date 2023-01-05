@@ -16,6 +16,10 @@ This Recommender Microservice consists of:
 
 - Cache: Redis
 
+- Authorisation: OAuth2.0
+
+- Authorisation Database: Postgres
+
 ### Setup
 
 To get all dependencies:
