@@ -49,13 +49,16 @@ def get_roster_model() -> Model:
     storage.download("roster.pkl", "roster.pkl")
     with open("roster.pkl", "rb") as handle:
         roster = pickle.load(handle)
-    roster.set_model(app.model)
-    return roster
+    try:
+        # Prevent API from crashing in case the training model doesn't fit the roster model
+        roster.set_model(app.model)
+    finally:
+        return roster
 
 
 app = FastAPI()
-app.model = Model()
-app.roster = Model()
+app.model = get_model()
+app.roster = get_roster_model()
 
 # Authorisation configurations
 app.include_router(users.router)
@@ -72,10 +75,9 @@ register_tortoise(
 @app.on_event("startup")
 async def startup_event():
     """
-    Get and initialise with the latest model during start up
+    Update cache with the latest model during start up
     """
-    app.model = get_model()
-    app.roster = get_roster_model()
+
     r.set("roster", pickle.dumps(app.roster))
 
 
