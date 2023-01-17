@@ -260,6 +260,23 @@ def reset_roster() -> Model:
     r.set("roster", pickle.dumps(app.roster))
 
 
+@app.post(
+    "/save-roster",
+    status_code=status.HTTP_200_OK,
+    dependencies=[Depends(users.verify_token)],
+)
+def save_roster() -> None:
+    """
+    Saves the Roster model to disk. Uses Python pickles.
+    """
+
+    with lock:
+        app.roster = pickle.loads(r.get("roster"))
+        with open("roster.pkl", "wb") as handle:
+            pickle.dump(app.roster, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        storage.child("roster.pkl").put("roster.pkl")
+
+
 @app.on_event("shutdown")
 async def shutdown_event():
     """
