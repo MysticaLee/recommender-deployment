@@ -1,5 +1,12 @@
-import { Level, CourseType, QuestionDifficulty } from "@prisma/client";
-import { Topic, Question, Answer, QuestionMedia } from "@prisma/client";
+import {
+  Answer,
+  CourseType,
+  Level,
+  Question,
+  QuestionDifficulty,
+  QuestionMedia,
+  Topic,
+} from "@prisma/client";
 
 export const Topics: Topic[] = [
   {
@@ -93,7 +100,7 @@ export const Topics: Topic[] = [
     topicLevel: Level.Intermediate,
   },
   {
-    topicSlug: "inverting-non-inverting-amplifiers-gains",
+    topicSlug: "inverting-non-inverting-amplifier-gains",
     topicName: "Gains of Inverting and Non-Inverting Amplifiers",
     topicLevel: Level.Advanced,
   },

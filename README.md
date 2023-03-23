@@ -91,7 +91,7 @@ Content:
 }
 ```
 
-### 2. Remove students for a SINGLE topic
+### 2. Remove students for a SINGLE topic (IRREVERISBLE)
 
 Removes students with given names for a topic.
 
