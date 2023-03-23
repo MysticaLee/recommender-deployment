@@ -30,7 +30,7 @@ pip install -r requirements.txt
 
 ## API Documentation
 
-This API is available at: `http://126.0.0.1:8000/`
+This API is available at: `http://127.0.0.1:8000/`
 
 ### 1. Add students for a SINGLE topic
 
